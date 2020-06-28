@@ -1,6 +1,17 @@
 # tsunit
 
-This is a little junit-like api to unit test typescript or javascript code.
+This is a little junit-like api to unit test for typescript or javascript code.
+
+## Prerequisites
+
+What you need:
+
+* tsc - typescript compiler
+
+For the sample tests:
+
+* bash
+* nodejs
 
 ## Usage
 
