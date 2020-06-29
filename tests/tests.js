@@ -14,6 +14,7 @@ testRun.test("no tests", function () {
     testRun.assertEqual("no successes", 0, t.getSummary().getSuccesses());
     testRun.assertEqual("no failures", 0, t.getSummary().getFailures());
     testRun.assertEqual("no error", 0, t.getSummary().getErrors());
+    testRun.assertEqual("no tests", 0, t.getSummary().getTestCount());
 });
 testRun.test("success", function () {
     t.test("test success", function () {
@@ -58,6 +59,26 @@ testRun.test("assertEqual", function () {
     testRun.assertEqual("one success", 1, t.getSummary().getSuccesses());
     t.test("test assertEqual", function () {
         t.assertEqual("assertEqual", 10, 11);
+    });
+    testRun.assertEqual("one failure", 1, t.getSummary().getFailures());
+});
+testRun.test("assertNull", function () {
+    t.test("test assertNull", function () {
+        t.assertNull("assertNull", null);
+    });
+    testRun.assertEqual("one success", 1, t.getSummary().getSuccesses());
+    t.test("test assertNull", function () {
+        t.assertNull("assertNull", "hello");
+    });
+    testRun.assertEqual("one failure", 1, t.getSummary().getFailures());
+});
+testRun.test("assertNotNull", function () {
+    t.test("test assertNotNull", function () {
+        t.assertNotNull("assertNotNull", "hello");
+    });
+    testRun.assertEqual("one success", 1, t.getSummary().getSuccesses());
+    t.test("test assertNotNull", function () {
+        t.assertNotNull("assertNotNull", null);
     });
     testRun.assertEqual("one failure", 1, t.getSummary().getFailures());
 });

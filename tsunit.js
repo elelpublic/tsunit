@@ -33,6 +33,26 @@ var TestRun = /** @class */ (function () {
             this.sums.addFailure();
         }
     };
+    TestRun.prototype.assertNull = function (description, value) {
+        if (value == null) {
+            this.log.logOk("OK: " + description);
+            this.sums.addSuccess();
+        }
+        else {
+            this.log.logFailure("Failed: " + description + ", expected: null, actual: " + value);
+            this.sums.addFailure();
+        }
+    };
+    TestRun.prototype.assertNotNull = function (description, value) {
+        if (value != null) {
+            this.log.logOk("OK: " + description);
+            this.sums.addSuccess();
+        }
+        else {
+            this.log.logFailure("Failed: " + description + ", expected: not null, actual: null");
+            this.sums.addFailure();
+        }
+    };
     TestRun.prototype.setup = function (setupCode) {
         this.setupCode = setupCode;
     };
@@ -160,13 +180,13 @@ var Summary = /** @class */ (function () {
         log.log("Total runtime        : " + (new Date().getTime() - this.t0) + " ms");
         log.log("");
         if (this.noTests()) {
-            log.log("FAILED. No tests found.");
+            log.log("FAILED: No tests found.");
         }
         else if (this.allOk()) {
-            log.log("SUCCESS. All OK");
+            log.log("SUCCESS: All OK");
         }
         else {
-            log.log("FAILED. Some Problems.");
+            log.log("FAILED: " + (this.failureCount + this.errorCount) + " Problem(s).");
         }
         log.log("============================================\n");
     };

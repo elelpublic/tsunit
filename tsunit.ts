@@ -39,6 +39,28 @@ export class TestRun {
     }  
   }
   
+  assertNull( description: string, value: any ) : void {
+    if( value == null ) {
+      this.log.logOk( "OK: " + description );
+      this.sums.addSuccess();
+    }
+    else {
+      this.log.logFailure( "Failed: " + description + ", expected: null, actual: " + value );
+      this.sums.addFailure();
+    }  
+  }
+
+  assertNotNull( description: string, value: any ) : void {
+    if( value != null ) {
+      this.log.logOk( "OK: " + description );
+      this.sums.addSuccess();
+    }
+    else {
+      this.log.logFailure( "Failed: " + description + ", expected: not null, actual: null" );
+      this.sums.addFailure();
+    }  
+  }
+
   setup( setupCode: Function ) {
     this.setupCode = setupCode;
   }
@@ -194,13 +216,13 @@ class Summary {
     log.log( "" );
 
     if( this.noTests() ) {
-      log.log( "FAILED. No tests found." );
+      log.log( "FAILED: No tests found." );
     }
     else if( this.allOk() ) {
-      log.log( "SUCCESS. All OK" );
+      log.log( "SUCCESS: All OK" );
     }
     else {
-      log.log( "FAILED. Some Problems." );
+      log.log( "FAILED: " + ( this.failureCount + this.errorCount ) + " Problem(s)." );
     }
 
     log.log( "============================================\n" );
