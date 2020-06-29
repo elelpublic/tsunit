@@ -48,34 +48,43 @@ export class TestRun {
 
   test( testName: string, testCode: Function ) {
     this.log.log( "Test: " + testName );
+    let tt0 = new Date().getTime();
 
     try {
-      if( this.setupCode != null ) {
-        this.setupCode();
+
+      try {
+        if( this.setupCode != null ) {
+          this.setupCode();
+        }
       }
-    }
-    catch( ex ) {
-      this.log.logError( "Error in setup: " + testName + " " + ex );
-      this.sums.addError();
-      return;
-    }
-
-    try {
-      testCode();
-    }
-    catch( ex ) {
-      this.log.logError( "Error: " + testName + " " + ex );
-      this.sums.addError();
-    }
-
-    try {
-      if( this.cleanupCode != null ) {
-        this.cleanupCode();
+      catch( ex ) {
+        this.log.logError( "Error in setup: " + testName + " " + ex );
+        this.sums.addError();
+        return;
       }
+
+      try {
+        testCode();
+      }
+      catch( ex ) {
+        this.log.logError( "Error: " + testName + " " + ex );
+        this.sums.addError();
+      }
+
+      try {
+        if( this.cleanupCode != null ) {
+          this.cleanupCode();
+        }
+      }
+      catch( ex ) {
+        this.log.log( "Error in cleanup: " + testName + " " + ex );
+      }
+
     }
-    catch( ex ) {
-      this.log.log( "Error in cleanup: " + testName + " " + ex );
+    finally {
+      this.log.log( "Runtime " + (new Date().getTime() - tt0) + " ms" );
     }
+
 
   }
 
@@ -122,6 +131,7 @@ class Summary {
   successCount = 0;
   failureCount = 0;
   errorCount = 0;
+  t0 = new Date().getTime();
 
   addSuccess() {
     this.successCount++;
@@ -163,6 +173,7 @@ class Summary {
     log.log( "Failed tests: " + this.failureCount );
     log.log( "Errors: " + this.errorCount );
     log.log( "--------------------------------------------" );
+    log.log( "Total run time: " + ( new Date().getTime() - this.t0 ) + " ms" );
 
     if( this.allOk() ) {
       log.log( "SUCCESS. All OK" );

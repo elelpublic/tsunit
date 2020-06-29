@@ -53,7 +53,9 @@ For the sample tests:
     samples/samplecode.ts - some code under test
     samples/sampletests.ts - tests for samplecode.ts
 
-    tests/teststs - test for tsunit (written with tsunit)
+    samples/tetris - a tetris created using ttd (test driven development) with tsunit
+
+    tests/tests - test for tsunit (written with tsunit)
 
     run_compile.sh - compile all typescript to javascript
     run_samples.sh - compile and run sample tests
@@ -61,7 +63,7 @@ For the sample tests:
 
 ## Todos
 
-* show runtime
+* generated structured test result data
 * generate html report
 * add more assertions
 
