@@ -111,7 +111,6 @@ export class TestRun {
       this.log.log( "Runtime " + (new Date().getTime() - tt0) + " ms" );
     }
 
-
   }
 
   getSummary() {
@@ -127,6 +126,7 @@ export class TestRun {
 class Log {
 
   quiet = false;
+  logSuccesses = false;
 
   log( line: string ) {
     if( !this.quiet ) {
@@ -135,7 +135,9 @@ class Log {
   }
 
   logOk( line: string ) {
-    this.log( "_____ " + line );
+    if( this.logSuccesses ) {
+      this.log( "_____ " + line );
+    }
   }
   
   logFailure( line: string ) {
@@ -148,6 +150,10 @@ class Log {
 
   setQuiet( quiet: boolean ) {
     this.quiet = quiet;
+  }
+
+  setLogSuccesses( logSuccesses: boolean ) {
+    this.logSuccesses = logSuccesses;
   }
 
 }

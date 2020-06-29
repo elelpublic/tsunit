@@ -1,5 +1,5 @@
 export class Tetris {
-  
+
   getMoves(): number {
     return 0;
   }
@@ -13,6 +13,10 @@ export class Tetris {
 
   getPoints(): number {
     return 0;
+  }
+
+  getColor(y: number, x: number): string {
+    return null;
   }
 
 }

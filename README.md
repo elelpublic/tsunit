@@ -1,6 +1,8 @@
 # tsunit
 
 This is a little junit-like api to unit test for typescript or javascript code.
+I made this so I did not have to use any bug api, any tooling, frameworks or such.
+The only thing I wanted was typescript, for the strict typing and compile safety.
 
 ## Prerequisites
 
@@ -37,6 +39,8 @@ For the sample tests:
 
       testRun.assertTrue( "s should be empty", s.isEmpty() );
       testRun.assertEquals( "size is 0 initially", 0, s.size() );
+      testRun.assertNull( "result should be null", s.getResult() );
+      testRun.assertNotNull( "name should not be null", s.getName() );
 
     });
 
@@ -64,6 +68,7 @@ For the sample tests:
 
 ## Todos
 
+* show mini summary after each test
 * generated structured test result data
 * generate html report
 * add more assertions

@@ -15,6 +15,9 @@ var Tetris = /** @class */ (function () {
     Tetris.prototype.getPoints = function () {
         return 0;
     };
+    Tetris.prototype.getColor = function (y, x) {
+        return null;
+    };
     return Tetris;
 }());
 exports.Tetris = Tetris;

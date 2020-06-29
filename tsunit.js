@@ -108,6 +108,7 @@ exports.TestRun = TestRun;
 var Log = /** @class */ (function () {
     function Log() {
         this.quiet = false;
+        this.logSuccesses = false;
     }
     Log.prototype.log = function (line) {
         if (!this.quiet) {
@@ -115,7 +116,9 @@ var Log = /** @class */ (function () {
         }
     };
     Log.prototype.logOk = function (line) {
-        this.log("_____ " + line);
+        if (this.logSuccesses) {
+            this.log("_____ " + line);
+        }
     };
     Log.prototype.logFailure = function (line) {
         this.log("##### " + line);
@@ -125,6 +128,9 @@ var Log = /** @class */ (function () {
     };
     Log.prototype.setQuiet = function (quiet) {
         this.quiet = quiet;
+    };
+    Log.prototype.setLogSuccesses = function (logSuccesses) {
+        this.logSuccesses = logSuccesses;
     };
     return Log;
 }());
