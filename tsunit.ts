@@ -9,7 +9,8 @@ export class TestRun {
   constructor( name: string, quiet: boolean = false ) {
     this.name = name;
     this.log.setQuiet( quiet );
-    this.log.log( "Test run: " + name );
+    this.log.log( "\n============================================" );
+    this.log.log( "Run: " + name );
   }
 
   getLog(): Log {
@@ -47,6 +48,9 @@ export class TestRun {
   }
 
   test( testName: string, testCode: Function ) {
+    this.sums.countTest();
+    this.log.log( "" );
+    this.log.log( "--------------------------------------------" );
     this.log.log( "Test: " + testName );
     let tt0 = new Date().getTime();
 
@@ -128,10 +132,15 @@ class Log {
 
 class Summary {
   
+  testCount = 0;
   successCount = 0;
   failureCount = 0;
   errorCount = 0;
   t0 = new Date().getTime();
+
+  countTest() {
+    this.testCount++;
+  }
 
   addSuccess() {
     this.successCount++;
@@ -165,22 +174,36 @@ class Summary {
     return this.successCount + this.failureCount + this.errorCount == 0;
   }
 
+  getTestCount(): number {
+    return this.testCount;
+  }
+
   log( log: Log ) {
     
+    log.log( "" );
     log.log( "--------------------------------------------" );
     log.log( "Summary" );
-    log.log( "Sucessful tests: " + this.successCount );
-    log.log( "Failed tests: " + this.failureCount );
-    log.log( "Errors: " + this.errorCount );
+    log.log( "" );
+    log.log( "Sucessful assertions : " + this.successCount );
+    log.log( "Failed assertions    : " + this.failureCount );
+    log.log( "Errors               : " + this.errorCount );
     log.log( "--------------------------------------------" );
-    log.log( "Total run time: " + ( new Date().getTime() - this.t0 ) + " ms" );
+    log.log( "Total test           : " + this.testCount );
+    log.log( "Total assertions     : " + ( this.successCount + this.failureCount + this.errorCount ) );
+    log.log( "Total runtime        : " + ( new Date().getTime() - this.t0 ) + " ms" );
+    log.log( "" );
 
-    if( this.allOk() ) {
+    if( this.noTests() ) {
+      log.log( "FAILED. No tests found." );
+    }
+    else if( this.allOk() ) {
       log.log( "SUCCESS. All OK" );
     }
     else {
       log.log( "FAILED. Some Problems." );
     }
+
+    log.log( "============================================\n" );
 
   }
 

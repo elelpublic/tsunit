@@ -1,4 +1,5 @@
 #!/bin/bash
 
-./run_compile.sh
+tsc *.ts
+tsc tests/*.ts
 node tests/tests.js

@@ -60,6 +60,7 @@ For the sample tests:
     run_compile.sh - compile all typescript to javascript
     run_samples.sh - compile and run sample tests
     run_tests.sh - compile und run tests
+    run_tetristests.sh - compile und run tests on tetris
 
 ## Todos
 

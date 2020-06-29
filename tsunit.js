@@ -7,7 +7,8 @@ var TestRun = /** @class */ (function () {
         this.sums = new Summary();
         this.name = name;
         this.log.setQuiet(quiet);
-        this.log.log("Test run: " + name);
+        this.log.log("\n============================================");
+        this.log.log("Run: " + name);
     }
     TestRun.prototype.getLog = function () {
         return this.log;
@@ -39,6 +40,9 @@ var TestRun = /** @class */ (function () {
         this.cleanupCode = cleanupCode;
     };
     TestRun.prototype.test = function (testName, testCode) {
+        this.sums.countTest();
+        this.log.log("");
+        this.log.log("--------------------------------------------");
         this.log.log("Test: " + testName);
         var tt0 = new Date().getTime();
         try {
@@ -106,11 +110,15 @@ var Log = /** @class */ (function () {
 }());
 var Summary = /** @class */ (function () {
     function Summary() {
+        this.testCount = 0;
         this.successCount = 0;
         this.failureCount = 0;
         this.errorCount = 0;
         this.t0 = new Date().getTime();
     }
+    Summary.prototype.countTest = function () {
+        this.testCount++;
+    };
     Summary.prototype.addSuccess = function () {
         this.successCount++;
     };
@@ -135,20 +143,32 @@ var Summary = /** @class */ (function () {
     Summary.prototype.noTests = function () {
         return this.successCount + this.failureCount + this.errorCount == 0;
     };
+    Summary.prototype.getTestCount = function () {
+        return this.testCount;
+    };
     Summary.prototype.log = function (log) {
+        log.log("");
         log.log("--------------------------------------------");
         log.log("Summary");
-        log.log("Sucessful tests: " + this.successCount);
-        log.log("Failed tests: " + this.failureCount);
-        log.log("Errors: " + this.errorCount);
+        log.log("");
+        log.log("Sucessful assertions : " + this.successCount);
+        log.log("Failed assertions    : " + this.failureCount);
+        log.log("Errors               : " + this.errorCount);
         log.log("--------------------------------------------");
-        log.log("Total run time: " + (new Date().getTime() - this.t0) + " ms");
-        if (this.allOk()) {
+        log.log("Total test           : " + this.testCount);
+        log.log("Total assertions     : " + (this.successCount + this.failureCount + this.errorCount));
+        log.log("Total runtime        : " + (new Date().getTime() - this.t0) + " ms");
+        log.log("");
+        if (this.noTests()) {
+            log.log("FAILED. No tests found.");
+        }
+        else if (this.allOk()) {
             log.log("SUCCESS. All OK");
         }
         else {
             log.log("FAILED. Some Problems.");
         }
+        log.log("============================================\n");
     };
     return Summary;
 }());
