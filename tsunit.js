@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
+exports.TestRun = void 0;
 var TestRun = /** @class */ (function () {
     function TestRun(name, quiet) {
         if (quiet === void 0) { quiet = false; }
@@ -64,6 +65,9 @@ var TestRun = /** @class */ (function () {
         this.log.log("");
         this.log.log("--------------------------------------------");
         this.log.log("Test: " + testName);
+        var result = new TestResult(testName);
+        this.log.addResult(result);
+        result.start();
         var tt0 = new Date().getTime();
         try {
             try {
@@ -74,6 +78,7 @@ var TestRun = /** @class */ (function () {
             catch (ex) {
                 this.log.logError("Error in setup: " + testName + " " + ex);
                 this.sums.addError();
+                result.logError("Error in setup: " + ex);
                 return;
             }
             try {
@@ -82,6 +87,7 @@ var TestRun = /** @class */ (function () {
             catch (ex) {
                 this.log.logError("Error: " + testName + " " + ex);
                 this.sums.addError();
+                result.logError(testName + " " + ex);
             }
             try {
                 if (this.cleanupCode != null) {
@@ -90,6 +96,7 @@ var TestRun = /** @class */ (function () {
             }
             catch (ex) {
                 this.log.log("Error in cleanup: " + testName + " " + ex);
+                result.logError("Error in cleanup: " + " " + ex);
             }
         }
         finally {
@@ -109,10 +116,16 @@ var Log = /** @class */ (function () {
     function Log() {
         this.quiet = false;
         this.logSuccesses = false;
+        this.text = "";
+        this.results = [];
     }
+    Log.prototype.addResult = function (result) {
+        this.results.push(this.results);
+    };
     Log.prototype.log = function (line) {
         if (!this.quiet) {
             console.log(line);
+            this.text += line + "\n";
         }
     };
     Log.prototype.logOk = function (line) {
@@ -132,7 +145,42 @@ var Log = /** @class */ (function () {
     Log.prototype.setLogSuccesses = function (logSuccesses) {
         this.logSuccesses = logSuccesses;
     };
+    Log.prototype.getText = function () {
+        return this.text;
+    };
     return Log;
+}());
+var TestResult = /** @class */ (function () {
+    function TestResult(testName) {
+        this.status = "NEW";
+        this.testName = testName;
+    }
+    /**
+     * Start test, record time
+     *
+     */
+    TestResult.prototype.start = function () {
+        this.startTime = new Date().getTime();
+        this.status = "RUNNING";
+    };
+    /**
+     * Stop test, record time
+     *
+     */
+    TestResult.prototype.stop = function () {
+        this.runTime = new Date().getTime() - this.startTime;
+    };
+    /**
+     * Mark test as error
+     *
+     * @param message Error message
+     *
+     */
+    TestResult.prototype.logError = function (message) {
+        stop();
+        this.status = "ERROR";
+    };
+    return TestResult;
 }());
 var Summary = /** @class */ (function () {
     function Summary() {

@@ -70,10 +70,17 @@ export class TestRun {
   }
 
   test( testName: string, testCode: Function ) {
+
     this.sums.countTest();
     this.log.log( "" );
     this.log.log( "--------------------------------------------" );
     this.log.log( "Test: " + testName );
+
+    let result = new TestResult( testName );
+    this.log.addResult( result );
+
+    result.start();
+
     let tt0 = new Date().getTime();
 
     try {
@@ -86,6 +93,7 @@ export class TestRun {
       catch( ex ) {
         this.log.logError( "Error in setup: " + testName + " " + ex );
         this.sums.addError();
+        result.logError( "Error in setup: " + ex );
         return;
       }
 
@@ -95,6 +103,7 @@ export class TestRun {
       catch( ex ) {
         this.log.logError( "Error: " + testName + " " + ex );
         this.sums.addError();
+        result.logError( testName + " " + ex );
       }
 
       try {
@@ -104,6 +113,7 @@ export class TestRun {
       }
       catch( ex ) {
         this.log.log( "Error in cleanup: " + testName + " " + ex );
+        result.logError( "Error in cleanup: " + " " + ex );
       }
 
     }
@@ -127,10 +137,17 @@ class Log {
 
   quiet = false;
   logSuccesses = false;
+  text = "";
+  results = [];
+
+  addResult( result: TestResult ) {
+    this.results.push( this.results );
+  }
 
   log( line: string ) {
     if( !this.quiet ) {
       console.log( line );
+      this.text += line + "\n";
     }
   }
 
@@ -154,6 +171,51 @@ class Log {
 
   setLogSuccesses( logSuccesses: boolean ) {
     this.logSuccesses = logSuccesses;
+  }
+
+  getText() {
+    return this.text;
+  }
+
+}
+
+class TestResult {
+
+  testName: string;
+  startTime: number;
+  runTime: number;
+  status = "NEW";
+
+  constructor( testName: string ) {
+    this.testName = testName;
+  }
+
+  /**
+   * Start test, record time
+   * 
+   */
+  start() {
+    this.startTime = new Date().getTime();
+    this.status = "RUNNING";
+  }
+
+  /**
+   * Stop test, record time
+   * 
+   */
+  stop() {
+    this.runTime = new Date().getTime() - this.startTime;
+  }
+
+  /**
+   * Mark test as error
+   * 
+   * @param message Error message
+   * 
+   */
+  logError( message: string) {
+    stop();
+    this.status = "ERROR";
   }
 
 }

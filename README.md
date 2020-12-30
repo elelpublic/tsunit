@@ -2,6 +2,8 @@
 
 This is a little junit-like api to unit test for typescript or javascript code.
 
+_tsunit is made for testing in the browser. To test in nodejs, try tsunit-node._
+
 I made this so I did not have to use any big api, any tooling, frameworks or such.
 The only thing I wanted was typescript, for the strict typing and compile safety.
 

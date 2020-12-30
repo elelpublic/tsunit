@@ -1,11 +1,12 @@
 "use strict";
 exports.__esModule = true;
-var tsunit_1 = require("../tsunit");
-var samplecode_1 = require("./samplecode");
-var testRun = new tsunit_1.TestRun("Stack");
+var tsunit_js_1 = require("../tsunit.js");
+var samplecode_js_1 = require("./samplecode.js");
+var testRun = new tsunit_js_1.TestRun("Stack");
+testRun.getLog().setLogSuccesses(true);
 var stack;
 testRun.setup(function () {
-    stack = new samplecode_1.Stack();
+    stack = new samplecode_js_1.Stack();
 });
 testRun.test("new stack", function () {
     testRun.assertTrue("is empty", stack.isEmpty());
@@ -35,3 +36,4 @@ testRun.test("last in first out", function () {
     testRun.assertEqual("size 0", 0, stack.size());
 });
 testRun.logSummary();
+document.getElementById("log").innerHTML = testRun.getLog().getText();

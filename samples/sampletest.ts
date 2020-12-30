@@ -1,7 +1,8 @@
-import { TestRun } from "../tsunit";
-import { Stack } from "./samplecode";
+import { TestRun } from "../tsunit.js";
+import { Stack } from "./samplecode.js";
 
 let testRun = new TestRun( "Stack" );
+testRun.getLog().setLogSuccesses( true );
 
 let stack: Stack;
 
@@ -52,5 +53,7 @@ testRun.test( "last in first out", () => {
 });
 
 testRun.logSummary();
+
+document.getElementById( "log" ).innerHTML = testRun.getLog().getText();
 
 
