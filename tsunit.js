@@ -177,7 +177,7 @@ var TestResult = /** @class */ (function () {
      *
      */
     TestResult.prototype.logError = function (message) {
-        stop();
+        this.stop();
         this.status = "ERROR";
     };
     return TestResult;

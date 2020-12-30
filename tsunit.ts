@@ -214,7 +214,7 @@ class TestResult {
    * 
    */
   logError( message: string) {
-    stop();
+    this.stop();
     this.status = "ERROR";
   }
 
