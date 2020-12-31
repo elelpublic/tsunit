@@ -54,6 +54,6 @@ testRun.test( "last in first out", () => {
 
 testRun.logSummary();
 
-document.getElementById( "log" ).innerHTML = testRun.getLog().getText();
+//document.getElementById( "log" ).innerHTML = testRun.getLog().getText();
 
 
