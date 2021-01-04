@@ -15,7 +15,7 @@ exports.setup = function( project ) {
     depends: [],
     internal: true,
     code: function( bee ) {
-      bee.tsc({
+      bee.tsc.run({
         file: "src/*.ts",
         targetDir: "target"
       });
@@ -45,7 +45,7 @@ exports.setup = function( project ) {
     depends: [ "compile" ],
     internal: true,
     code: function( bee ) {
-      bee.tsc({
+      bee.tsc.run({
         file: "src/tests/tests.ts",
         targetDir: "target"
       })      
@@ -70,7 +70,7 @@ exports.setup = function( project ) {
     depends: [ "compile" ],
     internal: true,
     code: function( bee ) {
-      bee.tsc({
+      bee.tsc.run({
         file: "src/samples/*.ts src/samples/tetris/*.ts",
         targetDir: "target"
       })      
