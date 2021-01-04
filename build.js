@@ -26,7 +26,7 @@ exports.setup = function( project ) {
     description: "Delete all artifactes which will be created by this project.",
     depends: [],
     code: function( bee ) {
-      bee.rmdir({ dir: "target" });
+      bee.rmdir.rmdir({ dir: "target" });
     }
   }
 
@@ -34,7 +34,7 @@ exports.setup = function( project ) {
     description: "Run unit tests which test this project.",
     depends: [ "compileTests" ],
     code: function( bee ) {
-      bee.test({
+      bee.test.run({
         file: "target/tests/tests.js"
       })      
     }
@@ -56,10 +56,10 @@ exports.setup = function( project ) {
     description: "Run sample unit tests.",
     depends: [ "compileSamples" ],
     code: function( bee ) {
-      bee.node({
+      bee.node.run({
         file: "target/samples/sampletest.js"
       })      
-      bee.node({
+      bee.node.run({
         file: "target/samples/tetris/tetristest.js"
       })      
     }
