@@ -8,11 +8,11 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug tsb",
+      "name": "Debug bee",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/tsb"
+      "program": "${workspaceFolder}/bee"
       , "args": [ "test" ]
     }
   ]

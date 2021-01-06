@@ -26,7 +26,7 @@ exports.setup = function( project ) {
     description: "Delete all artifactes which will be created by this project.",
     depends: [],
     code: function( bee ) {
-      bee.rmdir.rmdir({ dir: "target" });
+      bee.rmdir.run({ dir: "target" });
     }
   }
 
